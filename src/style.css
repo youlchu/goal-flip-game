@@ -1,0 +1,67 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+}
+
+.shoot-button {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+
+  background: linear-gradient(45deg, #ff6b35, #f7931e);
+  border: none;
+  border-radius: 25px;
+  padding: 15px 30px;
+
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4);
+
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.shoot-button:hover {
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 12px 25px rgba(255, 107, 53, 0.6);
+  background: linear-gradient(45deg, #f7931e, #ff6b35);
+}
+
+.shoot-button:active {
+  transform: translateX(-50%) translateY(0px);
+  box-shadow: 0 6px 15px rgba(255, 107, 53, 0.4);
+  scale: 0.98;
+}
