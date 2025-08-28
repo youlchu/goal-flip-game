@@ -3,7 +3,6 @@ import { World } from "./game-core/world/World";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div id="game-container" style="width:100vw; height:100vh; position:absolute;">
-    <button id="shoot-btn" class="shoot-button">⚽ ŞUT ÇEK!</button>
   </div>
 `;
 
