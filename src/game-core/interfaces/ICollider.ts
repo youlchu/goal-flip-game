@@ -1,10 +1,5 @@
-import * as CANNON from "cannon-es";
+import * as RAPIER from "@dimforge/rapier3d";
 
 export interface ICollider {
-  body: CANNON.Body;
-
-  // physical: CANNON.Body;
-  // visual: THREE.Mesh;
-
-  // getVisualModel(options: any): THREE.Mesh;
+  body: RAPIER.RigidBody;
 }

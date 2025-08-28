@@ -2,7 +2,6 @@ import * as THREE from "three";
 // import * as Utils from "./FunctionLibrary";
 import { World } from "../world/World";
 import type { IUpdatable } from "../interfaces/IUpdatable";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 export class CameraOperator implements IUpdatable {
   public updateOrder: number = 4;
   // public cameraControls: OrbitControls;

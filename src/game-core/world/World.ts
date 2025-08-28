@@ -349,10 +349,7 @@ export class World {
     _.pull(this.updatables, registree);
   }
 
-  public launchScenario(
-    scenarioID: string,
-    loadingManager?: LoadingManager
-  ): void {
+  public launchScenario(scenarioID: string): void {
     this.lastScenarioID = scenarioID;
 
     this.clearEntities();

@@ -12,7 +12,7 @@ export abstract class ICharacter
 {
   updateOrder: number = 1;
   private model: THREE.Object3D;
-  private world: World;
+  // private world: World;
 
   public mixer: THREE.AnimationMixer;
 
@@ -21,14 +21,14 @@ export abstract class ICharacter
 
   abstract entityType: EntityType;
 
-  constructor(modelCharacter: THREE.Object3D, world: World) {
+  constructor(modelCharacter: THREE.Object3D, _world: World) {
     super();
     this.model = SkeletonUtils.clone(modelCharacter);
 
     this.model.position.set(0, 0, 0);
     // this.model.rotation.set(0, 0, 0);
     this.add(this.model);
-    this.world = world;
+    // this.world = world;
 
     this.animations.push(...this.model.animations);
     this.mixer = new THREE.AnimationMixer(this);
@@ -94,7 +94,7 @@ export abstract class ICharacter
   public setPosition(position: THREE.Vector3) {
     this.position.copy(position);
   }
-  public setOrientation(forward: THREE.Vector3, up: boolean) {
+  public setOrientation(forward: THREE.Vector3, _up: boolean) {
     this.lookAt(forward);
     this.up.set(0, 1, 0);
   }
@@ -118,7 +118,7 @@ export abstract class ICharacter
     world.graphicsWorld.remove(this);
   }
 
-  public update(deltaTime: number) {
+  public update(_deltaTimee: number) {
     this.updateMatrixWorld();
 
     if (this.mixer) {

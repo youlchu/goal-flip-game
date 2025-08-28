@@ -161,5 +161,5 @@ export class PenaltyScenario extends Scenario implements IUpdatable {
 
   public stop(): void {}
 
-  public update(delta: number): void {}
+  public update(_delta: number): void {}
 }
