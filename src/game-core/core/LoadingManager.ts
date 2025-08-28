@@ -77,9 +77,10 @@ export class LoadingManager {
     trackerEntry.progress = 1;
 
     if (this.isLoadingDone()) {
+      this.world.setTimeScale(1);
+      console.log("Loading completed, game ready!");
       if (this.onFinishedCallback !== undefined) {
         this.onFinishedCallback();
-      } else {
       }
     }
   }

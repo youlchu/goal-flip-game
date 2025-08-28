@@ -15,14 +15,4 @@ function init() {
     document.getElementById("game-container")!,
     "soccer-field.glb"
   );
-
-  // Buton event listener
-  const shootBtn = document.getElementById("shoot-btn");
-  shootBtn?.addEventListener("click", shootBall);
-}
-
-function shootBall() {
-  if (world) {
-    world.shootToGoal();
-  }
 }

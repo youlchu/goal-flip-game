@@ -84,6 +84,12 @@ export class PenaltyScenario extends Scenario implements IUpdatable {
     this.shooter = this.getEntitiesByType<Shooter>("Shooter")[0];
     this.ball = this.getEntitiesByType<Ball>("Ball")[0];
 
+    console.log("Entities spawned:", {
+      goalkeeper: !!this.goalkeeper,
+      shooter: !!this.shooter,
+      ball: !!this.ball
+    });
+
     this.start();
   }
 
