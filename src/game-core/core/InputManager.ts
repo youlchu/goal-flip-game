@@ -59,8 +59,8 @@ export class InputManager implements IUpdatable {
     );
 
     // Keys
-    // document.addEventListener("keydown", this.boundOnKeyDown, false);
-    // document.addEventListener("keyup", this.boundOnKeyUp, false);
+    document.addEventListener("keydown", this.boundOnKeyDown, false);
+    document.addEventListener("keyup", this.boundOnKeyUp, false);
 
     world.registerUpdatable(this);
 

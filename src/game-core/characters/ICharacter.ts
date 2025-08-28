@@ -118,11 +118,11 @@ export abstract class ICharacter
     world.graphicsWorld.remove(this);
   }
 
-  public update(_deltaTimee: number) {
+  public update(deltaTime: number) {
     this.updateMatrixWorld();
 
     if (this.mixer) {
-      this.mixer.update(1 / 60);
+      this.mixer.update(deltaTime);
     }
   }
 }
