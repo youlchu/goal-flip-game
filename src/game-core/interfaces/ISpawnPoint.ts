@@ -1,11 +1,5 @@
-import { World } from "../world/World";
-import { LoadingManager } from "../core/LoadingManager";
+import type { World } from "../world/World";
 
-export interface ISpawnPoint {
-  spawn(
-    loadingManager: LoadingManager,
-    world: World,
-    model?: string,
-    userId?: string
-  ): void;
+export interface ISpawnPoint<T = any> {
+  spawn(world: World, callback?: (entity: T) => void): T | void;
 }

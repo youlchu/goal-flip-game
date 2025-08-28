@@ -119,7 +119,6 @@ export class Ball extends THREE.Object3D implements IWorldEntity {
 
     this.world = world;
     world.updatables.push(this);
-    world.balls.push(this);
     world.graphicsWorld.add(this);
   }
 
@@ -137,7 +136,6 @@ export class Ball extends THREE.Object3D implements IWorldEntity {
     }
     this.physicsEnabled = false;
     _.pull(world.updatables, this);
-    _.pull(world.balls, this);
     world.graphicsWorld.remove(this);
 
     // world.physicsWorld.removeCollider(this.collision, false);

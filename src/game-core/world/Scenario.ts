@@ -1,9 +1,8 @@
 import * as THREE from "three";
 import type { ISpawnPoint } from "../interfaces/ISpawnPoint";
 import { World } from "./World";
-import { LoadingManager } from "../core/LoadingManager";
 
-export class Scenario {
+export abstract class Scenario {
   public id: string;
   public name!: string;
   public spawnAlways: boolean = false;
@@ -12,11 +11,12 @@ export class Scenario {
   public descriptionTitle!: string;
   public descriptionContent!: string;
 
-  //@ts-ignore
-  private rootNode: THREE.Object3D;
-  private spawnPoints: ISpawnPoint[] = [];
-  private invisible: boolean = false;
-  // private initialCameraAngle!: number
+  rootNode: THREE.Object3D;
+  spawnPoints: ISpawnPoint[] = [];
+  invisible: boolean = false;
+
+  protected entities: Map<string, any> = new Map();
+  protected entitiesByType: Map<string, any[]> = new Map();
 
   constructor(root: THREE.Object3D, world: World) {
     this.rootNode = root;
@@ -30,44 +30,52 @@ export class Scenario {
     if (root.userData.default && root.userData.default === "true") {
       this.default = true;
     }
+  }
 
-    // if (root.userData['camera_angle'] !== undefined) {
-    //   this.initialCameraAngle = root.userData.camera_angle
-    // }
+  protected onEntitySpawned(entity: any): void {
+    const entityType = entity.constructor.name;
+    const entityId = entity.id || `${entityType}_${Date.now()}`;
 
-    if (!this.invisible) this.createLaunchLink();
+    this.entities.set(entityId, entity);
 
-    // Find all scenario spawns and enitites
-    root.traverse((child) => {
-      if (child.userData && child.userData.data) {
-        if (child.userData.data === "creature") {
-          //   this.spawnPoints.push();
-        }
-      }
-      if (child.userData.data === "spawn") {
-        if (
-          child.userData.type === "car" ||
-          child.userData.type === "airplane" ||
-          child.userData.type === "heli"
-        ) {
-          //   this.spawnPoints.push();
-        } else if (child.userData.type === "player") {
-          //   this.spawnPoints.push();
-        }
-      }
-    });
+    if (!this.entitiesByType.has(entityType)) {
+      this.entitiesByType.set(entityType, []);
+    }
+    this.entitiesByType.get(entityType)!.push(entity);
+  }
+
+  protected onAllEntitiesSpawned(): void {
+    // For overriding - after all entities have been spawned
+  }
+
+  public getEntity<T>(id: string): T | undefined {
+    return this.entities.get(id) as T;
+  }
+
+  public getEntitiesByType<T>(type: string): T[] {
+    return (this.entitiesByType.get(type) as T[]) || [];
+  }
+
+  public getAllEntities(): any[] {
+    return Array.from(this.entities.values());
   }
 
   public createLaunchLink(): void {
-    // this.world.params[this.name] = () => {
-    //   this.world.launchScenario(this.id);
-    // };
+    this.world.launchScenario(this.id);
   }
 
-  public launch(loadingManager: LoadingManager, world: World): void {
+  public launch(world: World): void {
     this.spawnPoints.forEach((sp) => {
-      sp.spawn(loadingManager, world);
+      const entity = sp.spawn(world, (spawnedEntity) => {
+        this.onEntitySpawned(spawnedEntity);
+      });
+
+      if (entity) {
+        this.onEntitySpawned(entity);
+      }
     });
-    // loadingManager.createWelcomeScreenCallback(this)
+
+    this.onAllEntitiesSpawned();
   }
+  // loadingManager.createWelcomeScreenCallback(this)
 }

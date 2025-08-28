@@ -2,6 +2,7 @@ import * as THREE from "three";
 // import * as Utils from "./FunctionLibrary";
 import { World } from "../world/World";
 import type { IUpdatable } from "../interfaces/IUpdatable";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 export class CameraOperator implements IUpdatable {
   public updateOrder: number = 4;
   // public cameraControls: OrbitControls;
@@ -14,7 +15,7 @@ export class CameraOperator implements IUpdatable {
     this.camera = camera;
     this.target = new THREE.Vector3();
 
-    this.camera.position.set(0, 0.1, -7);
+    this.camera.position.set(-0.5, 0.1, -7);
     this.camera.lookAt(0, 0, 0);
 
     // this.cameraControls = new OrbitControls(

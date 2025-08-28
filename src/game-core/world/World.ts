@@ -20,8 +20,8 @@ import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { TrimeshCollider } from "../physics/colliders/TrimeshCollider";
 import { CylinderCollider } from "../physics/colliders/CylinderCollider";
 import { PlaneCollider } from "../physics/colliders/PlaneCollider";
-import { Ball } from "../objects/Ball";
 import { RapierDebugRenderer } from "../core/RapierDebugRenderer";
+import { PenaltyScenario } from "./scenarios/PenaltyScenario";
 
 interface IWorldParams {
   timeScale: number;
@@ -56,11 +56,13 @@ export class World {
   public inputManager?: InputManager;
   public loadingManager: LoadingManager;
 
+  public characterModel!: THREE.Object3D;
+  public ballModel!: THREE.Object3D;
+
   public scenarios: Scenario[] = [];
   private lastScenarioID!: string;
 
   public updatables: IUpdatable[] = [];
-  public balls: Ball[] = [];
 
   public timeScaleTarget: number = 1;
 
@@ -148,6 +150,18 @@ export class World {
   }
 
   public loadScene(_loadingManager: LoadingManager, gltf: GLTF): void {
+    const characterModel = gltf.scene.getObjectByName("character");
+    characterModel?.removeFromParent();
+    if (characterModel) {
+      characterModel!.animations = gltf.animations;
+
+      this.characterModel = characterModel;
+    }
+    const ballModel = gltf.scene.getObjectByName("ball");
+    console.log("ballModel:", ballModel);
+    ballModel?.removeFromParent();
+    if (ballModel) this.ballModel = ballModel;
+
     gltf.scene.traverse((child: THREE.Object3D<THREE.Object3DEventMap>) => {
       if (child.userData) {
         if (child.type === "Mesh") {
@@ -213,19 +227,11 @@ export class World {
                 this.physicsWorld!.createCollider(phys.colliderDesc, body);
               }
             }
-          } else if (child.userData.data === "object") {
-            const childObject = child;
-            Utils.setupMeshProperties(childObject);
-            child.removeFromParent();
-
-            const ball = new Ball(child, this);
-            ball.setPosition(0, 0, -4);
-            ball.addToWorld(this);
           }
 
           if (child.userData.data === "scenario") {
             child.userData.visible = false;
-            this.scenarios.push(new Scenario(child, this));
+            this.scenarios.push(new PenaltyScenario(child, this));
           }
         }
       }
@@ -352,10 +358,10 @@ export class World {
     this.clearEntities();
 
     // Launch default scenario
-    if (!loadingManager) loadingManager = new LoadingManager(this);
+    // if (!loadingManager) loadingManager = new LoadingManager(this);
     for (const scenario of this.scenarios) {
       if (scenario.id === scenarioID || scenario.spawnAlways) {
-        scenario.launch(loadingManager, this);
+        scenario.launch(this);
       }
     }
   }
@@ -393,14 +399,12 @@ export class World {
   }
 
   public shootToGoal(): void {
-    if (this.balls.length > 0) {
-      const ball = this.balls[0];
-
-      const force = new THREE.Vector3(0, 0.05, 0.1);
-      ball.applyForce(force);
-
-      const spin = new THREE.Vector3(0, 0.01, 0);
-      ball.addSpin(spin);
-    }
+    // if (this.balls.length > 0) {
+    //   const ball = this.balls[0];
+    //   const force = new THREE.Vector3(0, 0.05, 0.1);
+    //   ball.applyForce(force);
+    //   const spin = new THREE.Vector3(0, 0.01, 0);
+    //   ball.addSpin(spin);
+    // }
   }
 }

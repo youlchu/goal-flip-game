@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "@dimforge/rapier3d": "^0.18.2",
-    "cannon-es": "^0.20.0",
     "vite-plugin-wasm": "^3.5.0"
   }
 }
